@@ -5,9 +5,18 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/precise64"
+  config.vm.hostname = "vvpengine.dev"
+
+  if defined? VagrantPlugins::HostsUpdater
+      config.hostsupdater.aliases = [
+        "vvpetrunk.dev"
+      ]
+  end
 
   config.vm.provision "ansible" do |ansible|
         ansible.playbook = "playbook.yml"
+        ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+        ansible.sudo = true
   end
 
   # Disable automatic box update checking. If you disable this, then
