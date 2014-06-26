@@ -6,6 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.hostname = "vvpengine.dev"
+  config.vm.network "private_network", ip: "192.168.150.10"
 
   config.vm.provider "virtualbox" do |vb|
   #   # Don't boot with headless mode
@@ -21,11 +22,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ]
   end
 
-  config.vm.provision "ansible" do |ansible|
-        ansible.playbook = "provisioning/playbook.yml"
-        ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
-        ansible.sudo = true
+  config.vm.provision "shell" do |s|
+     s.path = "bin/vvpe-init"
   end
+
+  # config.vm.provision "ansible" do |ansible|
+  #       ansible.playbook = "provisioning/playbook.yml"
+  #       ansible.extra_vars = { ansible_ssh_user: 'vagrant' }
+  #       ansible.sudo = true
+  # end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -36,10 +41,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

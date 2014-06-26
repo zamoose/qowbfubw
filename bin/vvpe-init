@@ -1,0 +1,31 @@
+#!/bin/bash
+echo '
+ _   _  _   _______                _
+| | | || | | | ___ \              (_)
+| | | || | | | |_/ /__ _ __   __ _ _ _ __   ___
+| | | || | | |  __/ _ \ |_ \ / _| | | |_ \ / _ \
+\ \_/ /\ \_/ / | |  __/ | | | (_| | | | | |  __/
+ \___/  \___/\_|  \___|_| |_|\__, |_|_| |_|\___|
+                              __/ |
+                             |___/
+
+'
+
+echo "Checking for Ansible."
+ansible_version="dpkg -s ansible | grep Version | cut -f2 -d:"
+if [[ -z $ansible_version ]]
+    then
+    echo "Ansible not installed. Installing."
+    apt-get -y install ansible
+else
+    echo "Ansible installed. Proceeding."
+    echo
+fi
+
+ANS_BIN=`which ansible`
+
+if [[ -z $ANS_BIN ]]
+    then
+    echo "Whoops, can't find Ansible anywhere. Aborting run."
+    exit
+fi
