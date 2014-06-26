@@ -1,8 +1,10 @@
 ---
-- name: Install Nginx, PHP-FPM, MySQL and HHVM
-  hosts: all
+- hosts: vagrant
+  connection: local
   roles:
-        - mysql
-        - nginx
-        # - php-fpm
-        - hhvm
+    - mysql
+    - nginx
+    - php-fpm
+    - hhvm
+    - varnish
+    - memcached
