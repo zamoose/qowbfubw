@@ -1,15 +1,15 @@
 #!/bin/bash
-echo '
+echo "
  _   _  _   _______                _
 | | | || | | | ___ \              (_)
 | | | || | | | |_/ /__ _ __   __ _ _ _ __   ___
-| | | || | | |  __/ _ \ |_ \ / _| | | |_ \ / _ \
+| | | || | | |  __/ _ \ |_ \ / _| | | |_ \ / _ \ 
 \ \_/ /\ \_/ / | |  __/ | | | (_| | | | | |  __/
  \___/  \___/\_|  \___|_| |_|\__, |_|_| |_|\___|
                               __/ |
                              |___/
 
-'
+"
 
 echo "Checking for Ansible."
 ansible_version="dpkg -s ansible | grep Version | cut -f2 -d:"
@@ -22,10 +22,12 @@ else
     echo
 fi
 
-ANS_BIN=`which ansible`
+ANS_BIN=`which ansible-playbook`
 
 if [[ -z $ANS_BIN ]]
     then
     echo "Whoops, can't find Ansible anywhere. Aborting run."
     exit
 fi
+
+$ANS_BIN /vagrant/provisioning/playbook.yml -i /vagrant/provisioning/hosts
