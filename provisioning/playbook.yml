@@ -2,7 +2,7 @@
 - name: Install Nginx, PHP-FPM, MySQL and HHVM
   hosts: all
   roles:
-        # - mysql
+        - mysql
         - nginx
         # - php-fpm
         - hhvm
