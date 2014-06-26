@@ -1,3 +1,5 @@
 ---
 - name: Install MySQL server
   apt: name=mysql-server-5.6 state=present
+- name: Ensure MySQL is running
+  service: name=mysql state=started
