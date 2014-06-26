@@ -1,0 +1,5 @@
+---
+- name: Install PHP-FPM
+  apt: name=php5-fpm state=present
+- name: Ensure PHP-FPM is running
+  service: name=php5-fpm state=started
