@@ -2,10 +2,10 @@
 - name: ensure /etc/mysql
   file: path=/etc/mysql state=directory owner=root group=root mode=0755
 
-#- name: ensure /etc/mysql/my.cnf ...
-#  template: src=etc/mysql/my.cnf dest=/etc/mysql/my.cnf owner=root group=root mode=0644
-#  notify:
-#    - mysql restart
+- name: ensure /etc/mysql/my.cnf ...
+  template: src=etc/mysql/my.cnf dest=/etc/mysql/my.cnf owner=root group=root mode=0644
+  notify:
+    - mysql restart
 
 - name: Enable Percona repo key
   command: apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
