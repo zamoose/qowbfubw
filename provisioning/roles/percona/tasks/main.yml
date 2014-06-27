@@ -1,11 +1,26 @@
 ---
+- name: ensure /etc/mysql
+  file: path=/etc/mysql state=directory owner=root group=root mode=0755
+
+- name: ensure /etc/mysql/my.cnf ...
+  template: src=etc/mysql/my.cnf dest=/etc/mysql/my.cnf owner=root group=root mode=0644
+  notify:
+    - mysql restart
+
 - name: Enable Percona repo key
   command: apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+
 - name: Enable Percona repo
-  apt_repository: repo="deb http://repo.percona.com/apt trusty main" state=present
+  apt_repository: repo='deb http://repo.percona.com/apt {{ ansible_lsb.codename }} main' state=present
+
 - name: Install Percona server
   apt: name=percona-server-server-5.6 state=present
+  notify:
+    - update-rc mysql
+    - mysql restart
+
 - name: Install Percona client
   apt: name=percona-server-client-5.6 state=present
+
 - name: Ensure Percona is running
   service: name=percona state=started
