@@ -1,5 +1,13 @@
 ---
+
+- name: Fill the varnish GPG Key
+  apt_key: data="{{ lookup('file', '../files/varnish-cache.gpg.key') }}" 
+
+- name: Add the varnish cache repo file
+  apt_repository: repo='deb http://repo.varnish-cache.org/ubuntu/ {{ ansible_lsb.codename }} varnish-{{ varnish_version }}' state=present update_cache=yes
+
 - name: Install Varnish
   apt: name=varnish state=present
+
 - name: Ensure Varnish is running
   service: name=varnish state=started
