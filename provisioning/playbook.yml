@@ -8,3 +8,4 @@
     - hhvm
     - varnish
     - memcached
+    - percona
